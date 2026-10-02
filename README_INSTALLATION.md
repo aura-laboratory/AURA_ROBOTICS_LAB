@@ -5,6 +5,10 @@ This guide installs the **full upstream multi-UAV backend** used by the AURA Rob
 The AURA Robotics Lab repository contains the **course files only**.  
 The full simulator/backend is installed separately.
 
+Official course repository:
+
+https://github.com/aura-laboratory/AURA_ROBOTICS_LAB
+
 ---
 
 # 1. System Requirements
@@ -13,7 +17,7 @@ The backend uses the MRS UAV System inside an **Apptainer** container.
 
 Official Apptainer website:
 
-[https://apptainer.org/](https://apptainer.org/)
+https://apptainer.org/
 
 Supported environments:
 
@@ -66,7 +70,7 @@ Open a Linux terminal and run:
 ```bash
 cd ~/Downloads
 
-git clone https://github.com/ioanrall/AURA_ROBOTICS_LAB.git AURA_ROBOTICS_LAB
+git clone https://github.com/aura-laboratory/AURA_ROBOTICS_LAB.git AURA_ROBOTICS_LAB
 ```
 
 After cloning, you should have:
@@ -74,8 +78,6 @@ After cloning, you should have:
 ```text
 ~/Downloads/AURA_ROBOTICS_LAB/
 ```
-
-> Replace `https://github.com/ioanrall/AURA_ROBOTICS_LAB.git` with the final GitHub URL of this repository.
 
 ## Step 2 — Run the automatic backend installer
 
@@ -124,7 +126,7 @@ Use this method if you prefer to perform every step manually.
 ```bash
 cd ~/Downloads
 
-git clone https://github.com/ioanrall/AURA_ROBOTICS_LAB.git AURA_ROBOTICS_LAB
+git clone https://github.com/aura-laboratory/AURA_ROBOTICS_LAB.git AURA_ROBOTICS_LAB
 ```
 
 ## Step 2 — Create the AURA runtime folder
