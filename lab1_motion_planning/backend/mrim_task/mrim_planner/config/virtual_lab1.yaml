@@ -1,0 +1,137 @@
+# ================================================================
+# AURA LAB 1 - virtual configuration
+# Motion planning: RRT vs A* vs student local planner
+# ================================================================
+#
+# IMPORTANT:
+#   Do not edit path_planner.method here just to switch modes.
+#   Use one of:
+#     ./run_lab1_rrt.sh
+#     ./run_lab1_astar.sh
+#     ./run_lab1_student.sh
+#
+# All three modes use StudentPlanner for:
+#   - shared/purple viewpoint assignment
+#   - heading interpolation
+#   - temporal two-UAV collision avoidance
+#
+# Only the local A->B path planner changes.
+# ================================================================
+
+problem:
+  name: apocalypse_small.problem
+  plot: false
+
+simulation:
+  flight_always_allowed: true
+
+solution_time_constraint:
+  soft: 120.0
+  hard: 240.0
+
+mission:
+  timeout: 200.0
+
+global_frame: fixed_origin
+print_info: false
+
+uav_names:
+  - uav1
+  - uav2
+
+cameras:
+  red:
+    fov_length: 4.5
+    angle_of_view:
+      horizontal: 1.4
+      vertical: 1.4
+  blue:
+    fov_length: 4.5
+    angle_of_view:
+      horizontal: 1.4
+      vertical: 1.4
+
+viewpoints:
+  distance: 4.0
+  inspection_limits:
+    distance: 0.3
+    heading: 0.2
+    pitch: 0.2
+
+dynamic_constraints:
+  controller: fast
+  tolerance: 0.01
+  max_velocity:
+    x: 5.0
+    y: 5.0
+    z: 2.0
+  max_acceleration:
+    x: 5.0
+    y: 5.0
+    z: 2.0
+  max_heading_rate: 1.0
+  max_heading_rate_acceleration: 2.0
+
+trajectories:
+  dt: 0.2
+  subscribe: true
+  min_distance:
+    obstacles: 1.9
+    mutual: 2.5
+  check:
+    obstacles: 1.5
+    mutual: 2.5
+
+trajectory_sampling:
+  with_stops: true
+
+path_smoothing:
+  lookahead_dist: 1.0
+  sampling_step: 0.4
+
+# Keep TSP distance estimation identical in all three experiments so that
+# RRT/A*/STUDENT comparison changes the local planner, not the visit-order cost.
+tsp:
+  clustering: random
+  distance_estimates: euclidean
+
+path_planner:
+  # This value is overwritten TEMPORARILY by run_lab1.sh.
+  # Valid Lab 1 modes: rrt, astar, student
+  method: rrt
+  timeout: 60.0
+  straighten_paths: false
+
+  astar:
+    grid_resolution: 0.3
+
+  rrt:
+    branch_size: 3.0
+    sampling:
+      method: uniform
+      gaussian:
+        stddev_inflation: 0.2
+    star:
+      neighborhood: 1.0
+
+  # Used only by ./run_lab1_student.sh and the provided reference example.
+  student:
+    step_size: 3.0
+    goal_bias: 0.20
+    max_iterations: 4000
+    collision_check_step: 0.25
+
+# StudentPlanner.resolve_start_delay() handles temporal deconfliction.
+collision_avoidance:
+  method: none
+
+visualization:
+  python:
+    dynamics: false
+    mutual_distance: false
+    obstacle_distance: false
+    trajectories: false
+  rviz:
+    use: true
+    horizon_length: 20
+    playback_speed: 3.0

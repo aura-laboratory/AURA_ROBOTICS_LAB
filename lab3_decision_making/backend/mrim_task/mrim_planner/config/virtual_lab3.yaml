@@ -1,0 +1,135 @@
+# ================================================================
+# AURA LAB 3 - virtual configuration
+# High-level decision making + Lab 1 motion-planning backend
+# ================================================================
+#
+# Ownership rule:
+#   RED viewpoints    -> RED UAV only
+#   BLUE viewpoints   -> BLUE UAV only
+#   PURPLE viewpoints -> assigned to RED or BLUE by StudentAgent
+#
+# Lab 3 decision methods:
+#   random
+#   greedy       <- working default
+#   q_learning   <- student TODO in student_agent.py
+#   dqn          <- optional advanced TODO
+#
+# To reproduce Lab 1 behavior, use:
+#   decision_making:
+#     method: tsp
+# ================================================================
+
+problem:
+  # Small problem is best while developing/testing Lab 3.
+  name: apocalypse_small.problem
+  plot: false
+
+global_frame: gps_origin
+
+viewpoints:
+  distance: 3.0
+
+# ----------------------------------------------------------------
+# LAB 3: HIGH-LEVEL DECISION MAKING
+# ----------------------------------------------------------------
+decision_making:
+  # Working options now: random, greedy
+  # Student exercise: q_learning
+  # Advanced extension: dqn
+  method: greedy
+
+  # Allocation strategy for PURPLE/shared viewpoints.
+  # "balanced_nearest" considers distance + current target load.
+  shared_assignment: balanced_nearest
+
+  # Q-learning parameters (used only when method: q_learning)
+  alpha: 0.20
+  gamma: 0.95
+  epsilon: 0.20
+
+  # Fast abstract training: no RRT is executed during these episodes.
+  training_episodes: 1200
+  inspection_reward: 20.0
+  completion_bonus: 100.0
+
+  # Keep experiments reproducible.
+  random_seed: 7
+
+# ----------------------------------------------------------------
+# TSP SETTINGS
+# ----------------------------------------------------------------
+# These remain here so method: tsp reproduces the Lab 1 pipeline.
+# In random/greedy/Q-learning modes, TSP no longer chooses visit order.
+tsp:
+  clustering: random
+  distance_estimates: euclidean
+
+# ----------------------------------------------------------------
+# LOCAL MOTION PLANNER
+# ----------------------------------------------------------------
+# Lab 3 selects WHICH target comes next.
+# RRT still computes HOW the UAV reaches that target safely.
+path_planner:
+  method: rrt
+  timeout: 60.0
+  straighten_paths: false
+
+  rrt:
+    branch_size: 3.0
+
+    sampling:
+      method: uniform
+
+      # Only used if sampling/method is changed to gaussian.
+      gaussian:
+        stddev_inflation: 1.0
+
+    # Only used if path_planner/method is changed to rrtstar.
+    star:
+      neighborhood: 10.0
+
+  # Only used if path_planner/method or TSP distance estimates use A*.
+  astar:
+    grid_resolution: 0.5
+
+# ----------------------------------------------------------------
+# TRAJECTORY GENERATION
+# ----------------------------------------------------------------
+trajectories:
+  dt: 0.2
+
+  # Planning safety margins.
+  min_distance:
+    obstacles: 1.9
+    mutual: 2.5
+
+trajectory_sampling:
+  # Keep the stable Lab 1 setting for the first Lab 3 version.
+  with_stops: true
+
+path_smoothing:
+  sampling_step: 0.1
+  lookahead_dist: 0.3
+
+# The integrated AURA planner currently performs temporal
+# deconfliction with StudentPlanner.resolve_start_delay().
+# This backend switch is therefore intentionally left disabled.
+collision_avoidance:
+  method: none
+
+# ----------------------------------------------------------------
+# VIRTUAL-UAV DYNAMIC CONSTRAINTS
+# ----------------------------------------------------------------
+dynamic_constraints:
+  max_velocity:
+    x: 5.0
+    y: 5.0
+    z: 2.0
+
+  max_acceleration:
+    x: 5.0
+    y: 5.0
+    z: 2.0
+
+  max_heading_rate: 1.0
+  max_heading_rate_acceleration: 2.0

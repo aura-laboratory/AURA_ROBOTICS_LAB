@@ -1,0 +1,65 @@
+<launch>
+  <!--
+    AURA Lab 2 - State Estimation / SLAM
+
+    Students normally change only the "method" argument:
+      dead_reckoning
+      ekf
+      particle_filter
+      ekf_slam
+      graph_slam
+
+    Example:
+      roslaunch mrim_planner aura_lab2.launch method:=ekf
+  -->
+
+  <arg name="uav" default="uav1"/>
+  <arg name="method" default="dead_reckoning"/>
+
+  <!-- Ground truth is consumed only by instructor infrastructure.
+       It is NOT passed directly to StudentEstimator. -->
+  <arg
+    name="truth_topic"
+    default="/multirotor_simulator/$(arg uav)/odom"
+  />
+
+  <node
+    pkg="mrim_planner"
+    type="aura_estimator_node.py"
+    name="aura_lab2_estimator"
+    output="screen"
+    respawn="false"
+  >
+    <param name="truth_topic" value="$(arg truth_topic)"/>
+    <param name="method" value="$(arg method)"/>
+
+    <!-- Controlled Lab 2 sensor stream -->
+    <param name="update_rate" value="10.0"/>
+    <param name="gps_period" value="1.0"/>
+
+    <!-- GPS-like position noise: noisy enough to require fusion, but better than long-term odometry drift -->
+    <param name="gps_sigma_xy" value="0.25"/>
+    <param name="gps_sigma_z" value="0.15"/>
+
+    <!-- Incremental odometry noise -->
+    <param name="odom_sigma_xy" value="0.015"/>
+    <param name="odom_sigma_z" value="0.008"/>
+    <param name="odom_sigma_yaw" value="0.004"/>
+
+    <!-- Stronger controlled odometry drift so students can clearly see estimator differences -->
+    <param name="odom_scale_xy" value="1.03"/>
+    <param name="odom_scale_z" value="1.015"/>
+    <param name="yaw_bias_rate" value="0.006"/>
+
+    <!-- GPS dropout experiment.
+         Keep duration 0.0 for the first run. -->
+    <param name="gps_dropout_start" value="0.0"/>
+    <param name="gps_dropout_duration" value="0.0"/>
+
+    <param name="random_seed" value="13"/>
+    <param name="max_path_points" value="2500"/>
+
+    <!-- RViz only: magnify estimator/GPS error for teaching. -->
+    <param name="visual_error_scale" value="5.0"/>
+  </node>
+</launch>
