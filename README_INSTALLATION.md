@@ -19,7 +19,7 @@ The AURA Robotics Lab setup has been tested on:
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
 
-For a new installation, **Ubuntu 22.04 LTS is recommended**.
+For a new installation, **Ubuntu 20.04 LTS is recommended**.
 
 The lab can also be used on:
 
