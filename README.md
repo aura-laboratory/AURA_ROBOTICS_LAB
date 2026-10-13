@@ -1,30 +1,62 @@
 # AURA Robotics Lab
 
-This repository contains the **course-layer files only** for three integrated robotics labs. The large simulator/backend is installed separately and is intentionally **not committed to this repository**.
+This repository contains the course material and software layer used for the practical laboratory exercises of the Robotics course.
 
-## Labs
+The laboratories use a common robotics simulation backend, which provides the simulated environment, UAV models, visualization, trajectory execution, and supporting infrastructure. The course repository contains only the files required for the laboratory exercises and does not include the full simulator/backend.
 
-1. **Lab 1 — Motion Planning**  
-   Compare backend RRT and A*, then implement a student local planner while keeping the common assignment, heading interpolation, and temporal multi-UAV deconfliction pipeline.
+## Laboratories
 
-2. **Lab 2 — Localization / Estimation / SLAM**  
-   Work with dead reckoning, GPS fusion, EKF-style estimation, and landmark-based EKF-SLAM through a common `StudentEstimator` API.
+The course includes three laboratory exercises.
 
-3. **Lab 3 — Decision Making / Reinforcement Learning**  
-   Choose which target each UAV should visit next; the motion-planning backend executes the resulting target sequence.
+### Lab 1 — Motion Planning
 
-## Start here
+Lab 1 focuses on motion planning in a multi-UAV mission.
 
-Read **[README_INSTALLATION.md](README_INSTALLATION.md)** first.
+Students work with an integrated planning pipeline that combines:
 
-After the backend is installed, each lab has its own folder, installer, README, and launcher(s):
+- path planning,
+- task allocation,
+- routing.
 
-- `lab1_motion_planning/`
-- `lab2_localization_slam/`
-- `lab3_decision_making/`
+The lab includes the comparison of provided A* and RRT planners, the implementation of a shared-viewpoint assignment strategy, and the development of a student local path planner.
 
-The three labs can coexist on the same backend. Lab 1 and Lab 3 launchers temporarily activate their own planner/config and restore the original backend files when the run exits normally or with Ctrl+C.
+The remaining stages of the mission pipeline, such as TSP-based visit ordering, heading interpolation, trajectory generation, smoothing, and temporal multi-UAV collision avoidance, are provided as part of the laboratory infrastructure.
 
-## Repository policy
+See:
 
-Do not add the simulator image, `.aura_runtime`, virtual environments, result folders, or large generated archives to this Git repository. Only the course-layer patches and documentation belong here.
+`lab1_motion_planning/README.md`
+
+### Lab 2 — Localization / Estimation / SLAM
+
+Lab 2 focuses on robot localization, state estimation, and SLAM.
+
+Students will work with estimation methods and sensor information in a simulated robotic system.
+
+The detailed structure and exercises for this laboratory will be provided in the Lab 2 material.
+
+See:
+
+`lab2_localization_slam/`
+
+### Lab 3 — Decision Making / Reinforcement Learning
+
+Lab 3 focuses on decision making and reinforcement learning for robotic systems.
+
+Students will study how autonomous robots can make decisions and select actions while interacting with a simulated environment.
+
+The detailed structure and exercises for this laboratory will be provided in the Lab 3 material.
+
+See:
+
+`lab3_decision_making/`
+
+## Installation
+
+The simulator/backend must be installed before running the laboratories.
+
+Start with:
+
+**[README_INSTALLATION.md](README_INSTALLATION.md)**
+
+After the backend installation, each laboratory provides its own files, instructions, and launcher scripts.
+

@@ -1,69 +1,47 @@
-# AURA Robotics Lab — Backend Installation
+# AURA Robotics Lab — Installation
 
-This guide installs the **full upstream multi-UAV backend** used by the AURA Robotics Lab and prepares the local folder structure expected by the three labs.
+This guide describes how to install the simulation backend used for the laboratory exercises of the Robotics course.
 
-The AURA Robotics Lab repository contains the **course files only**.  
-The full simulator/backend is installed separately.
+The `AURA_ROBOTICS_LAB` repository contains the course files only. The simulator and the main backend are installed separately.
 
-Official course repository:
+Course repository:
 
 https://github.com/aura-laboratory/AURA_ROBOTICS_LAB
 
 ---
 
-# 1. System Requirements
+## 1. System requirements
 
-The backend uses the MRS UAV System inside an **Apptainer** container.
+The simulator runs in Linux and uses the MRS UAV System through an Apptainer container.
 
-Official Apptainer website:
+The AURA Robotics Lab setup has been tested on:
 
-https://apptainer.org/
+- Ubuntu 20.04 LTS
+- Ubuntu 22.04 LTS
 
-Supported environments:
+For a new installation, **Ubuntu 22.04 LTS is recommended**.
 
-- **Linux**
-- **Windows 11 with WSL2 running Linux**
-- **Windows with a Linux virtual machine**
-- **macOS with a Linux virtual machine**
+The lab can also be used on:
 
-All installation commands below must be executed **inside a Linux environment**.
+- Windows 11 with WSL2 and Ubuntu
+- Windows with an Ubuntu virtual machine
+- macOS with a Linux virtual machine
 
-## Recommended environment
+All commands in this guide should be executed from a Linux terminal.
 
-The simplest option is an **Ubuntu-compatible Linux** system.
+On Ubuntu, the installation scripts handle the required dependencies and the Apptainer setup automatically.
 
-On Ubuntu-compatible systems, the upstream backend installer can install the required dependencies, install/configure Apptainer, download the pre-built container image, and compile the workspace.
+If another Linux distribution is used, Apptainer may need to be installed manually first.
 
-## Non-Ubuntu Linux
-
-Install Apptainer manually first, then continue with the installation below.
-
-## Windows
-
-Use either:
-
-- Windows 11 + WSL2 + a Linux distribution, or
-- a Linux virtual machine.
-
-Run all commands from the Linux terminal.
-
-## macOS
-
-Use a Linux virtual machine and run all commands from inside that Linux environment.
-
-## Disk space
-
-The upstream backend requires approximately **6 GB** of disk space.
-
-More free space is recommended for the course files, logs, results, and development tools.
+The backend requires approximately **6 GB of disk space**. Some additional free space is recommended for course files, logs, results and development tools.
 
 ---
 
-# 2. Recommended Installation — Automatic Method
+## 2. Automatic installation
 
-This is the recommended method.
+This is the recommended installation method.
 
-## Step 1 — Clone the AURA Robotics Lab repository
+### Clone the course repository
 
 Open a Linux terminal and run:
 
@@ -73,13 +51,15 @@ cd ~/Downloads
 git clone https://github.com/aura-laboratory/AURA_ROBOTICS_LAB.git AURA_ROBOTICS_LAB
 ```
 
-After cloning, you should have:
+The repository should now be available at:
 
 ```text
-~/Downloads/AURA_ROBOTICS_LAB/
+~/Downloads/AURA_ROBOTICS_LAB
 ```
 
-## Step 2 — Run the automatic backend installer
+### Install the backend
+
+Run:
 
 ```bash
 cd ~/Downloads/AURA_ROBOTICS_LAB
@@ -88,76 +68,46 @@ chmod +x install_aura_backend.sh
 ./install_aura_backend.sh
 ```
 
-The script automatically:
-
-1. checks that it is running inside Linux,
-2. checks that `git` is available,
-3. creates the required AURA host folders,
-4. creates:
-
-```text
-~/Downloads/aura-lab/
-└── .aura_runtime/
-    └── backend/
-```
-
-5. clones the full upstream backend,
-6. checks out the backend version used by this course,
-7. runs the upstream backend `install.sh`,
-8. downloads/configures the required Apptainer-based runtime through the upstream installation procedure,
-9. compiles/prepares the backend.
-
-The backend is installed at:
+The installation script creates the AURA runtime directory and installs the simulator backend under:
 
 ```text
 ~/Downloads/aura-lab/.aura_runtime/backend
 ```
 
-When the script finishes successfully, continue with the README of the lab you want to install.
+During the installation, the script:
+
+- checks the basic system requirements,
+- creates the required folders,
+- downloads the upstream backend,
+- runs the upstream installation procedure,
+- sets up the Apptainer environment,
+- downloads the required container image,
+- prepares and compiles the workspace.
+
+When the installation finishes successfully, the backend is ready and the laboratory exercises can be installed.
 
 ---
 
-# 3. Manual Installation — Alternative Method
+## 3. Manual backend installation
 
-Use this method if you prefer to perform every step manually.
+The automatic installation method above is recommended.
 
-## Step 1 — Clone the AURA Robotics Lab repository
+If you prefer to install the backend manually, use the following steps.
 
-```bash
-cd ~/Downloads
-
-git clone https://github.com/aura-laboratory/AURA_ROBOTICS_LAB.git AURA_ROBOTICS_LAB
-```
-
-## Step 2 — Create the AURA runtime folder
+### Create the runtime directory
 
 ```bash
 mkdir -p ~/Downloads/aura-lab/.aura_runtime
 ```
 
-## Step 3 — Clone the full upstream backend
+### Clone the upstream backend
 
 ```bash
-git clone https://github.com/ctu-mrs/summer-school-2026.git   ~/Downloads/aura-lab/.aura_runtime/backend
+git clone https://github.com/ctu-mrs/summer-school-2026.git \
+  ~/Downloads/aura-lab/.aura_runtime/backend
 ```
 
-## Step 4 — Check out the course-tested backend version
-
-The course package was prepared with backend commit:
-
-```text
-cff98a147c64316d5e3d30f61f954821c42685cf
-```
-
-Run:
-
-```bash
-cd ~/Downloads/aura-lab/.aura_runtime/backend
-
-git checkout cff98a147c64316d5e3d30f61f954821c42685cf
-```
-
-## Step 5 — Run the upstream backend installer
+### Run the upstream installer
 
 ```bash
 cd ~/Downloads/aura-lab/.aura_runtime/backend
@@ -166,15 +116,13 @@ chmod +x install.sh
 ./install.sh
 ```
 
-The upstream installer installs/sets up the required dependencies, downloads the Apptainer image, and compiles the workspace.
+The upstream installer sets up the required dependencies, Apptainer environment and simulator workspace.
 
 ---
 
-# 4. Install a Lab
+## 4. Laboratory exercises
 
-After the backend installation is complete, install the lab you want to use.
-
-The AURA repository contains:
+The course repository contains three laboratory folders:
 
 ```text
 AURA_ROBOTICS_LAB/
@@ -183,16 +131,11 @@ AURA_ROBOTICS_LAB/
 └── lab3_decision_making/
 ```
 
-Each lab folder contains its own:
+Each laboratory has its own README with the relevant instructions.
 
-- `README.md`
-- installation script
-- course files
-- launch instructions
+### Lab 1 — Motion Planning
 
-Follow the README inside the corresponding lab folder.
-
-## Example — Lab 1
+After the backend has been installed, install Lab 1 with:
 
 ```bash
 cd ~/Downloads/AURA_ROBOTICS_LAB/lab1_motion_planning
@@ -201,13 +144,13 @@ chmod +x install_lab1.sh
 ./install_lab1.sh ~/Downloads/aura-lab
 ```
 
-Then:
+Then move to the AURA runtime directory:
 
 ```bash
 cd ~/Downloads/aura-lab
 ```
 
-Run one of the Lab 1 modes:
+The Lab 1 launchers are:
 
 ```bash
 ./run_lab1_rrt.sh
@@ -215,13 +158,33 @@ Run one of the Lab 1 modes:
 ./run_lab1_student.sh
 ```
 
-For Lab 2 and Lab 3, follow the corresponding lab README.
+The complete Lab 1 instructions are available in:
+
+```text
+~/Downloads/AURA_ROBOTICS_LAB/lab1_motion_planning/README.md
+```
+
+### Lab 2 — Localization / Estimation / SLAM
+
+The installation and execution instructions for Lab 2 will be provided in:
+
+```text
+~/Downloads/AURA_ROBOTICS_LAB/lab2_localization_slam/
+```
+
+### Lab 3 — Decision Making / Reinforcement Learning
+
+The installation and execution instructions for Lab 3 will be provided in:
+
+```text
+~/Downloads/AURA_ROBOTICS_LAB/lab3_decision_making/
+```
 
 ---
 
-# 5. Opening the Backend in PyCharm
+## 5. Opening the backend in PyCharm
 
-The upstream backend provides a helper script for opening PyCharm inside the Apptainer environment.
+The backend includes a helper script for opening PyCharm from the Apptainer environment.
 
 Run:
 
@@ -231,19 +194,19 @@ cd ~/Downloads/aura-lab/.aura_runtime/backend
 ./simulation/pycharm.sh
 ```
 
-The main AURA student-facing files are located under:
+For Lab 1, the relevant planner files are located under:
 
 ```text
-mrim_task/mrim_planner/scripts/
+mrim_task/mrim_planner/
 ```
 
-The README of each lab explains exactly which file the student should edit.
+The Lab 1 README specifies which files should be inspected or modified.
 
 ---
 
-# 6. Expected Folder Layout
+## 6. Folder structure
 
-After cloning the AURA repository and installing the backend:
+After cloning the course repository and installing the backend, the expected structure is:
 
 ```text
 ~/Downloads/
@@ -251,49 +214,48 @@ After cloning the AURA repository and installing the backend:
 │   ├── lab1_motion_planning/
 │   ├── lab2_localization_slam/
 │   ├── lab3_decision_making/
+│   ├── install_aura_backend.sh
 │   ├── README.md
 │   ├── README_INSTALLATION.md
-│   └── install_aura_backend.sh
+│   ├── THIRD_PARTY_LICENSE_BSD-3-Clause.txt
+│   └── THIRD_PARTY_NOTICE.md
 │
 └── aura-lab/
     └── .aura_runtime/
         └── backend/
 ```
 
-After installing individual labs, their launcher scripts are copied into:
+After Lab 1 has been installed, its student-facing launchers are available under:
 
 ```text
 ~/Downloads/aura-lab/
-```
-
-For example:
-
-```text
-~/Downloads/aura-lab/
-├── run_lab1.sh
 ├── run_lab1_rrt.sh
 ├── run_lab1_astar.sh
 ├── run_lab1_student.sh
-├── run_lab2.sh
-├── run_lab3.sh
 └── .aura_runtime/
     └── backend/
 ```
 
-Only the launchers for labs that have actually been installed will appear there.
+Some internal helper scripts may also be present in this directory.
 
 ---
 
-# 7. Important Notes
+## 7. Notes
 
-- Do **not** clone the AURA course repository inside the backend folder.
-- Do **not** manually install ROS on the host just for this course.
-- Run all installation commands from a Linux environment.
-- On Windows, use WSL2 or a Linux virtual machine.
+- Do not clone `AURA_ROBOTICS_LAB` inside the backend directory.
+- Do not install ROS separately on the host for this course.
+- Run the installation commands from a Linux environment.
+- For a new installation, Ubuntu 22.04 LTS is recommended.
+- On Windows 11, WSL2 with Ubuntu can be used.
 - On macOS, use a Linux virtual machine.
-- On non-Ubuntu Linux, install Apptainer manually before running the upstream installer.
-- The recommended workflow is:
-  1. clone `AURA_ROBOTICS_LAB`,
-  2. run `install_aura_backend.sh`,
-  3. install the desired lab,
-  4. run the corresponding lab launcher.
+- Follow the README of each laboratory before modifying backend files.
+
+A typical installation sequence is:
+
+```text
+1. Clone AURA_ROBOTICS_LAB
+2. Run install_aura_backend.sh
+3. Open the README of the laboratory
+4. Install the laboratory
+5. Run its launcher
+```
