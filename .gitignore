@@ -1,0 +1,25 @@
+# Never commit the large backend/runtime
+.aura_runtime/
+
+# Python / IDE
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.idea/
+.vscode/
+
+# Generated course backups and results
+.aura_course_backups/
+results/
+*.backup_*
+
+# Large archives / container artifacts
+*.zip
+*.img
+*.sif
+*.squashfs
+
+# OS/editor noise
+.DS_Store
+*~
